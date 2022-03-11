@@ -72,7 +72,7 @@ fun Greeting(name: String) {
     Text(text = "Hello $name!")
 }
 
-@Preview()
+@Preview
 @Composable
 fun DefaultPreview() {
     LayoutsInJetpackComposeTheme {
