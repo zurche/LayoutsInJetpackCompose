@@ -4,10 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -18,37 +19,32 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             LayoutsInJetpackComposeTheme {
-                LayoutsCodelab()
+                SimpleList()
             }
         }
     }
 }
 
 @Composable
-fun LayoutsCodelab() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = "LayoutsCodelab")
-                },
-                actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(Icons.Filled.Favorite, contentDescription = null)
-                    }
-                }
-            )
+fun SimpleList() {
+    val scrollState = rememberScrollState()
+    Column(Modifier.verticalScroll(scrollState)) {
+        repeat(100) {
+            Text("Item #$it")
         }
-    ) { innerPadding ->
-        BodyContent(Modifier.padding(innerPadding))
     }
 }
 
 @Composable
-private fun BodyContent(modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
-        Text(text = "Hi There!")
-        Text(text = "Thanks for going through the Layouts codelab")
+fun LazyList() {
+    // We save the scrolling position with this state that can also
+    // be used to programmatically scroll the list
+    val scrollState = rememberLazyListState()
+
+    LazyColumn(state = scrollState) {
+        items(100) {
+            Text("Item #$it")
+        }
     }
 }
 
@@ -56,6 +52,6 @@ private fun BodyContent(modifier: Modifier = Modifier) {
 @Composable
 fun DefaultPreview() {
     LayoutsInJetpackComposeTheme {
-        LayoutsCodelab()
+        LazyList()
     }
 }
